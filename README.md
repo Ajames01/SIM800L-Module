@@ -8,4 +8,6 @@
 • Data/Internet: Establish GPRS connections for internet access (HTTPS, TCP/IP, FTP, MQTT, etc.).
 • Low Power: Known for its low power consumption in idle and sleep modes, making it suitable for battery-powered applications.
 • Applications: GPS trackers, remote monitoring, smart meters, security systems, and SOS devices.
-![Uploading image.png…]()
+<img width="1000" height="773" alt="image" src="https://github.com/user-attachments/assets/d839b7c2-ee10-45ab-90d0-5b3f4074cdd4" />
+
+
