@@ -44,7 +44,8 @@ The **SIM800L** is a quad-band GSM/GPRS module that allows microcontrollers (lik
 - For 5V microcontrollers (e.g., Arduino Uno), use a **voltage divider or logic level converter**.  
 - ESP32’s 3.3V logic is usually compatible.  
 
-![original](https://github.com/user-attachments/assets/626f74ab-75e7-4a98-ac67-a847842dd5f0)
+<img width="1536" height="672" alt="Gemini_Generated_Image_d5g0rqd5g0rqd5g0 (1)" src="https://github.com/user-attachments/assets/4ab9f19d-a412-4c2f-a29e-f07a7f5f50bd" />
+
 
 ---
 
