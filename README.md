@@ -27,3 +27,5 @@
 • RST: Reset pin (usually connected to a digital pin on the micro).
 • NET: Status LED pin (pulled high or low to indicate network status).
 • RING: Indicates an incoming call/SMS.
+
+![original](https://github.com/user-attachments/assets/626f74ab-75e7-4a98-ac67-a847842dd5f0)
