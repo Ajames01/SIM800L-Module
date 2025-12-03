@@ -1,5 +1,3 @@
-
-```
 # SIM800L-Module
 **SIM800L: GSM/GPRS Module Guide**
 
@@ -59,5 +57,3 @@ The **SIM800L** is a quad-band GSM/GPRS module that allows microcontrollers (lik
 
 ## 📖 License
 This project is open-source. Feel free to use, modify, and share under the terms of the MIT License.
-```
-
