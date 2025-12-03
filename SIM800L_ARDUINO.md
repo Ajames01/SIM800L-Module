@@ -12,9 +12,10 @@ The SIM800L needs a dedicated power source due to its high current demands (up t
 | *SIM800L GND* | *4.0V DC Source (-)* | |
 | *SIM800L GND* | *Arduino GND* | *Essential:* All grounds must be connected (Common Ground). |
 <img width="474" height="269" alt="image" src="https://github.com/user-attachments/assets/ebac6150-1c17-434d-8dcf-39c700ade74f" />
-![1cad684b6b694eb0db03a93d9c144124](https://github.com/user-attachments/assets/aebd1a23-9a12-4a98-a130-f61136e50f7d)
 
 ---
+![1cad684b6b694eb0db03a93d9c144124](https://github.com/user-attachments/assets/a51e2bbb-6573-4f07-9a27-c82a4dbddc3d)
+
 
 ## 💬 Serial Communication (SoftwareSerial)
 
