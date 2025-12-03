@@ -39,6 +39,8 @@ These commands are essential for enabling the GPRS (2G data) connection to log d
 | AT+CIPSHUT | *Deactivates GPRS* and closes the connection. | SHUT OK | Used for safely resetting the data connection when finished. |
 
 ---
+<img width="532" height="502" alt="Screenshot 2025-11-22 134253" src="https://github.com/user-attachments/assets/33df2c22-f467-4108-a4d6-0ab11c209c69" />
+
 
 ## ☁ HTTP/HTTPS Data Transfer Commands
 
@@ -51,3 +53,5 @@ The SIM800L has a built-in HTTP stack, simplifying data uploads for IoT projects
 | AT+HTTPACTION | *Executes* the HTTP method. | 3. Execute | AT+HTTPACTION=1 (0=GET, 1=POST). |
 | AT+HTTPREAD | *Reads the server response*. | 4. Read Response | Use this to check the result code (e.g., 200 is success). |
 | AT+HTTPTERM | *Terminates* the HTTP service. | 5. Terminate | Frees up resources after the data transfer is complete. |
+
+
