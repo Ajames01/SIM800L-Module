@@ -11,6 +11,7 @@ The SIM800L needs a dedicated power source due to its high current demands (up t
 | *SIM800L VCC* | *4.0V DC Source (+)* | Use a LiPo battery or a *DC-DC Buck Converter* set to *4.0V* and rated for at least *2A*. |
 | *SIM800L GND* | *4.0V DC Source (-)* | |
 | *SIM800L GND* | *Arduino GND* | *Essential:* All grounds must be connected (Common Ground). |
+<img width="474" height="269" alt="image" src="https://github.com/user-attachments/assets/ebac6150-1c17-434d-8dcf-39c700ade74f" />
 
 ---
 
