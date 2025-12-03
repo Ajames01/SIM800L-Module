@@ -8,6 +8,5 @@
 • Data/Internet: Establish GPRS connections for internet access (HTTPS, TCP/IP, FTP, MQTT, etc.).
 • Low Power: Known for its low power consumption in idle and sleep modes, making it suitable for battery-powered applications.
 • Applications: GPS trackers, remote monitoring, smart meters, security systems, and SOS devices.
-<img width="1000" height="773" alt="image" src="https://github.com/user-attachments/assets/d839b7c2-ee10-45ab-90d0-5b3f4074cdd4" />
 
-
+![SIM800L_with_helical_antenna](https://github.com/user-attachments/assets/6e28b3f6-ae89-483b-b4de-f29555841f78)
