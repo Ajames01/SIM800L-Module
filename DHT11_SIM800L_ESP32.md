@@ -1,5 +1,3 @@
-
-
 # ☁ DHT11 to ThingSpeak via SIM800L (No WiFi)
 
 [![Arduino](https://img.shields.io/badge/Arduino-IDE-blue.svg)]()
@@ -182,16 +180,14 @@ AT+HTTPREAD
 AT+HTTPTERM
 ```
 
----
-
 # 🖼 Screenshots (Add in /images)
-
 <img width="532" height="502" alt="Screenshot 2025-11-22 134253" src="https://github.com/user-attachments/assets/70efb103-4ca0-4b51-bf8a-25318b1b2b1a" />
-```
 
-```
 
----
+
+
+
+
 
 # 🧯 Troubleshooting
 
