@@ -205,4 +205,4 @@ If you have questions or need help:
 
 -----
 
-**Made with ❤️ for IoT enthusiasts**
+**Made with ❤️ for IoT enthusiasts by JAMES ANAGA and ELIJAH AYARA**
