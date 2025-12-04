@@ -217,17 +217,11 @@ You can use, modify, redistribute freely.
 
 ---
 
-# 🙌 Need Enhancements?
+#  Authors
 
-I can add:
-
-✅ Diagram
-✅ PCB design
-✅ ESP32 version
-✅ Low-power sleep mode
-✅ MQTT version
+James Anaga & Elijah Ayara
 
 ```
 
----
+
 
