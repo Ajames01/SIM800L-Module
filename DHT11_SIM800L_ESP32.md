@@ -1,208 +1,233 @@
-# DHT11 to ThingSpeak via GPRS (No WiFi)
 
-[![Arduino](https://img.shields.io/badge/Arduino-Compatible-00979D?style=flat&logo=arduino)](https://www.arduino.cc/)
-[![ESP32](https://img.shields.io/badge/ESP32-Compatible-E7352C?style=flat&logo=espressif)](https://www.espressif.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-This project provides complete code and setup instructions for logging environmental data (Temperature and Humidity) from a DHT11 sensor to the ThingSpeak IoT platform using the SIM800L GSM module’s GPRS connection.
+# ☁ DHT11 to ThingSpeak via SIM800L (No WiFi)
 
-## ⚙️ Prerequisites
+[![Arduino](https://img.shields.io/badge/Arduino-IDE-blue.svg)]()
+[![SIM800L](https://img.shields.io/badge/SIM800L-GSM/GPRS-red.svg)]()
+[![IoT](https://img.shields.io/badge/IoT-ThingSpeak-green.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)]()
 
-### Hardware Requirements
+Send **temperature and humidity** data from a **DHT11 sensor** to **ThingSpeak** using the **SIM800L GSM Module** — without WiFi.  
+This project is ideal for **remote farms, rural IoT deployments, greenhouses, weather nodes, and offline environments**.
 
-- Arduino Uno/Mega or ESP32
-- SIM800L GSM module
-- DHT11 temperature and humidity sensor
-- Active SIM card with data plan
-- Appropriate power supply (SIM800L requires stable 3.7-4.2V, 2A)
+---
 
-### Software Requirements
+# 📁 Repository Structure
 
-Install the following libraries in your Arduino IDE:
+```
 
-- **DHT.h** (from Adafruit or similar source)
-- **SoftwareSerial.h** (standard with Arduino IDE, needed for Uno)
+📦 dht11-sim800l-thingspeak
+┣ 📂 /images
+┃ ┣ wiring-diagram.png
+┃ ┗ serial-log.png
+┣ 📄 README.md
+┗ 📄 dht11_sim800l_thingspeak.ino
 
-### ThingSpeak Setup
+````
 
-1. Create a [ThingSpeak](https://thingspeak.com/) account
-1. Create a new channel with two fields:
+---
 
-- **Field 1**: Temperature
-- **Field 2**: Humidity
+# 🧩 Hardware Required
 
-1. Obtain your Channel’s **Write API Key**
+- ESP32 / Arduino UNO / Nano  
+- SIM800L GSM Module  
+- DHT11 sensor  
+- 3.7–4.2V 2A power supply for SIM800L  
+- Antenna  
+- Jumper wires  
 
-## 🛠️ Configuration
+---
 
-Update the following constants in the code with your specific details:
+# 🔌 Wiring Connections
 
-|Constant   |Description                            |Example Value                        |
-|-----------|---------------------------------------|-------------------------------------|
-|`APN`      |Your mobile carrier’s Access Point Name|`"internet"` or `"data.globe.com.ph"`|
-|`APN_USER` |APN Username (often blank, use `""`)   |`""`                                 |
-|`apiKey`   |Your ThingSpeak Channel Write API Key  |`"YOUR_KEY_HERE"`                    |
-|`DHTPIN`   |DHT11 sensor data pin                  |`13` (ESP32) or `2` (Arduino)        |
-|Serial pins|RX/TX pins for SIM800L                 |`16/17` (ESP32) or `2/3` (Arduino)   |
+## DHT11 → Arduino
+| DHT11 | Arduino |
+|-------|---------|
+| VCC   | 5V      |
+| GND   | GND     |
+| DATA  | D2      |
 
-## 🔌 Hardware Connections
-
-### ESP32 to SIM800L
-
-|ESP32 Pin   |SIM800L Pin|
-|------------|-----------|
-|GPIO 16 (RX)|TX         |
-|GPIO 17 (TX)|RX         |
-|GND         |GND        |
-|3.7-4.2V    |VCC        |
-
-### ESP32 to DHT11
-
-|ESP32 Pin|DHT11 Pin|
+## SIM800L → Arduino
+| SIM800L | Arduino |
 |---------|---------|
-|GPIO 13  |DATA     |
-|3.3V     |VCC      |
-|GND      |GND      |
+| TX      | D8      |
+| RX      | D7      |
+| GND     | GND     |
+| VCC     | External 4V 2A |
 
+⚠ **Do NOT power SIM800L from Arduino 5V — it will reboot constantly.**
 
-> **⚠️ Important**: Ensure proper power supply for SIM800L. Use a separate power source capable of delivering 2A during transmission bursts.
+---
 
-## 💻 Installation
+# 🛠 Required Libraries
 
-1. Clone this repository:
+Install via Arduino Library Manager:
 
-```bash
-git clone https://github.com/yourusername/dht11-thingspeak-gprs.git
-cd dht11-thingspeak-gprs
+- **DHT sensor library** (Adafruit)
+- **SoftwareSerial**
+
+---
+
+# 🎯 Configure ThingSpeak
+
+1. Create or sign in to [ThingSpeak](https://thingspeak.com)  
+2. Create a channel  
+3. Enable:
+   - Field 1 → Temperature  
+   - Field 2 → Humidity  
+4. Copy your **Write API Key**
+
+---
+
+# 🧪 FULL WORKING CODE (Arduino)
+
+Save as: `dht11_sim800l_thingspeak.ino`
+
+```cpp
+#include <SoftwareSerial.h>
+#include <DHT.h>
+
+#define DHTPIN 2
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
+
+// SIM800L pins
+SoftwareSerial sim800l(7, 8); // RX, TX
+
+String apn     = "your_apn_here";   // Example: "internet", "web.gprs.mtnnigeria.net"
+String apiKey  = "YOUR_THINGSPEAK_API_KEY";
+
+void sendCommand(String cmd, int delayMs) {
+  sim800l.println(cmd);
+  delay(delayMs);
+  while (sim800l.available()) {
+    Serial.write(sim800l.read());
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  sim800l.begin(9600);
+
+  Serial.println("Initializing...");
+  dht.begin();
+
+  delay(3000);
+}
+
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();
+
+  if (isnan(h) || isnan(t)) {
+    Serial.println("DHT11 read failed!");
+    delay(2000);
+    return;
+  }
+
+  Serial.print("Temp: "); Serial.print(t);
+  Serial.print("  Humidity: "); Serial.println(h);
+
+  // ----- SIM800L GPRS SETUP -----
+  sendCommand("AT", 1000);
+  sendCommand("AT+CSQ", 1000);
+  sendCommand("AT+CREG?", 1000);
+
+  sendCommand("AT+SAPBR=3,1,\"CONTYPE\",\"GPRS\"", 1000);
+  sendCommand("AT+SAPBR=3,1,\"APN\",\"" + apn + "\"", 2000);
+
+  sendCommand("AT+SAPBR=1,1", 3000);
+  sendCommand("AT+SAPBR=2,1", 2000);
+
+  // ----- HTTP REQUEST -----
+  String url = "http://api.thingspeak.com/update?api_key=" + apiKey +
+               "&field1=" + String(t) + "&field2=" + String(h);
+
+  sendCommand("AT+HTTPTERM", 1000);  // reset previous session
+  sendCommand("AT+HTTPINIT", 2000);
+  sendCommand("AT+HTTPPARA=\"CID\",1", 1000);
+  sendCommand("AT+HTTPPARA=\"URL\",\"" + url + "\"", 2000);
+
+  sendCommand("AT+HTTPACTION=0", 6000); // 0 = GET
+  sendCommand("AT+HTTPREAD", 2000);
+  sendCommand("AT+HTTPTERM", 1000);
+
+  Serial.println("Data sent to ThingSpeak!");
+
+  delay(20000); // ThingSpeak accepts updates every 15+ seconds
+}
+````
+
+---
+
+# 📡 AT Command Flow Used by the Code
+
+```
+AT
+AT+CSQ
+AT+CREG?
+AT+SAPBR=3,1,"CONTYPE","GPRS"
+AT+SAPBR=3,1,"APN","your_apn"
+AT+SAPBR=1,1
+AT+HTTPINIT
+AT+HTTPPARA="URL","http://api.thingspeak.com/update?api_key=XXXXX&field1=25&field2=80"
+AT+HTTPACTION=0
+AT+HTTPREAD
+AT+HTTPTERM
 ```
 
-1. Open `sim800l_dht_thingspeak.ino` in Arduino IDE
-1. Update configuration constants:
+---
 
-- `apiKey` - Your ThingSpeak Write API Key
-- `apn` - Your carrier’s APN
-- Pin definitions if using different pins
-
-1. Upload to your board
-
-## 📊 How It Works
-
-The code uses a state machine approach to reliably handle the complete GPRS connection and data upload process:
-
-1. **AT Communication Check** - Verifies SIM800L is responsive
-1. **SIM Card Validation** - Ensures SIM card is detected and unlocked
-1. **Network Registration** - Waits for cellular network connection
-1. **GPRS Attachment** - Attaches to GPRS service
-1. **Bearer Setup** - Configures GPRS bearer profile with APN
-1. **Bearer Activation** - Opens GPRS connection and obtains IP
-1. **HTTP Initialization** - Prepares HTTP client
-1. **Sensor Reading** - Reads temperature and humidity from DHT11
-1. **URL Construction** - Builds ThingSpeak API request
-1. **HTTP Request** - Sends data to ThingSpeak
-1. **Response Processing** - Handles server response
-1. **Cleanup** - Terminates HTTP session
-1. **Wait Cycle** - Delays 20 seconds before next reading
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-**SIM800L not responding:**
-
-- Check power supply (needs stable 3.7-4.2V, 2A capability)
-- Verify RX/TX connections (they should be crossed)
-- Ensure proper grounding
-
-**Network registration fails:**
-
-- Check SIM card is activated and has data plan
-- Verify signal strength with `AT+CSQ` command
-- Try different antenna or location
-
-**GPRS connection fails:**
-
-- Verify APN settings for your carrier
-- Ensure SIM has active data subscription
-- Check if APN username/password needed
-
-**HTTP request timeout:**
-
-- Verify ThingSpeak API key is correct
-- Check internet connectivity
-- Ensure bearer profile is properly configured
-
-**Sensor reads NaN:**
-
-- Verify DHT11 connections
-- Check DHT11 power supply (3.3V or 5V depending on module)
-- Add 10kΩ pull-up resistor to data line if needed
-
-## 📈 Serial Monitor Output
-
-Expected output when running successfully:
+# 🖼 Screenshots (Add in /images)
 
 ```
-=== ESP32 + SIM800L + ThingSpeak (HTTP Method) ===
-
-[STEP 1] Testing AT communication...
-✓ SUCCESS
-
-[STEP 2] Checking SIM card status...
-✓ SUCCESS
-
-[STEP 3] Checking network registration...
-✓ Registered on network!
-
-...
-
-[STEP 10] Reading DHT11 sensor...
-Temperature: 25.30 °C
-Humidity: 60.20 %
-✓ Sensor data read successfully
-
-[STEP 12] Executing HTTP GET request...
-✓✓✓ HTTP 200 OK - DATA SENT SUCCESSFULLY! ✓✓✓
+/images/wiring-diagram.png
+/images/serial-log.png
 ```
 
-## 🌐 Common APN Settings
+---
 
-|Carrier |Country    |APN                      |
-|--------|-----------|-------------------------|
-|MTN     |Nigeria    |`web.gprs.mtnnigeria.net`|
-|Globe   |Philippines|`data.globe.com.ph`      |
-|Smart   |Philippines|`internet`               |
-|Airtel  |India      |`airtelgprs.com`         |
-|Vodafone|UK         |`pp.vodafone.co.uk`      |
-|T-Mobile|USA        |`fast.t-mobile.com`      |
-|AT&T    |USA        |`phone`                  |
+# 🧯 Troubleshooting
 
-*Contact your carrier for specific APN settings.*
+| Problem                  | Cause            | Fix                            |
+| ------------------------ | ---------------- | ------------------------------ |
+| SIM800L keeps restarting | Not enough power | Use 4V 2A supply               |
+| HTTP 603/601 error       | Wrong APN        | Use your country's correct APN |
+| No network               | Weak signal      | Add external antenna           |
+| ThingSpeak not updating  | Wrong API key    | Re-check the channel write key |
+| `DHT read failed`        | Loose pin        | Check wiring                   |
 
-## 📝 License
+---
 
-This project is open source and available under the MIT License.
 
-## 🤝 Contributing
+# 📈 Result
+![WhatsApp Image 2025-12-04 at 07 21 08_0e13b9ad](https://github.com/user-attachments/assets/6db35e0e-0609-4e9e-bb4d-60759f81b7c3)
 
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](../../issues).
+✔ Temperature & humidity uploaded every 20 seconds
+✔ No WiFi required — pure GSM GPRS
+✔ Perfect for remote IoT nodes
 
-## 🙏 Acknowledgments
+---
 
-- Adafruit for the DHT sensor library
-- ThingSpeak for the IoT platform
-- SIMCom for SIM800L documentation
+# 📜 License
 
-## 📧 Support
+MIT License
+You can use, modify, redistribute freely.
 
-If you have questions or need help:
+---
 
-- Open an [issue](../../issues)
-- Check existing [discussions](../../discussions)
+# 🙌 Need Enhancements?
 
------
+I can add:
 
-**⚠️ Security Note**: Keep your ThingSpeak API key private. Never commit credentials to public repositories. Consider using environment variables or a separate config file that’s added to `.gitignore`.
+✅ Diagram
+✅ PCB design
+✅ ESP32 version
+✅ Low-power sleep mode
+✅ MQTT version
 
------
+```
 
-**Made with ⚡for IoT enthusiasts by JAMES ANAGA and ELIJAH AYARA**
+---
+
