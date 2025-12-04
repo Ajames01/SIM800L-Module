@@ -35,10 +35,13 @@ This project is ideal for **remote farms, rural IoT deployments, greenhouses, we
 - 3.7–4.2V 2A power supply for SIM800L  
 - Antenna  
 - Jumper wires  
+- 1000uF capacitor (for Stabilization)
+
 
 ---
 
 # 🔌 Wiring Connections
+<img width="1017" height="542" alt="image" src="https://github.com/user-attachments/assets/d96efb63-f9f4-42c1-9a4b-e1137e618588" />
 
 ## DHT11 → Arduino
 | DHT11 | Arduino |
@@ -181,9 +184,9 @@ AT+HTTPTERM
 
 # 🖼 Screenshots (Add in /images)
 
+<img width="532" height="502" alt="Screenshot 2025-11-22 134253" src="https://github.com/user-attachments/assets/70efb103-4ca0-4b51-bf8a-25318b1b2b1a" />
 ```
-/images/wiring-diagram.png
-/images/serial-log.png
+
 ```
 
 ---
