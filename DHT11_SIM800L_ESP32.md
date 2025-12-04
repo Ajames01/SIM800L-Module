@@ -41,7 +41,8 @@ This project is ideal for **remote farms, rural IoT deployments, greenhouses, we
 ---
 
 # 🔌 Wiring Connections
-<img width="1017" height="542" alt="image" src="https://github.com/user-attachments/assets/d96efb63-f9f4-42c1-9a4b-e1137e618588" />
+<img width="1920" height="1080" alt="sim800l_project" src="https://github.com/user-attachments/assets/42fb7aaf-a661-49e2-b438-b07ff43516ad" />
+
 
 ## DHT11 → Arduino
 | DHT11 | Arduino |
